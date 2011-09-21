@@ -65,7 +65,7 @@ public class BeanComboBoxModel extends AbstractListModel implements ComboBoxMode
     public Object getElementAt(int index) {
         String string = "";
         int fieldCount = BeanClass.fields(beanList.get(index)).length;
-        for(int i=0;i<fieldCount;i++){
+        for(int i=0;i<fieldCount || i < fieldVisible.length;i++){
             if(fieldVisible.length == 0 || fieldVisible == null)
                 string += BeanClass.getterMethod(beanList.get(index), i) + separator;
             else{
