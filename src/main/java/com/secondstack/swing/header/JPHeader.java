@@ -40,10 +40,10 @@ public class JPHeader extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        labelIcon = new javax.swing.JLabel();
+        labelHeader = new javax.swing.JLabel();
 
-        jLabel2.setText("Header");
+        labelHeader.setText("Header");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -51,9 +51,9 @@ public class JPHeader extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                .addComponent(labelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -61,14 +61,14 @@ public class JPHeader extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))
+                    .addComponent(labelHeader)
+                    .addComponent(labelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelHeader;
+    private javax.swing.JLabel labelIcon;
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private Color colorDarker = new Color(141, 180, 227);
@@ -107,5 +107,13 @@ public class JPHeader extends javax.swing.JPanel {
 
     public void setIcon(Icon icon) {
         this.icon = icon;
+    }
+    
+    public void setHeader(String header){
+        labelHeader.setText(header);
+    }
+    
+    public String getHeader(){
+        return labelHeader.getText();
     }
 }
