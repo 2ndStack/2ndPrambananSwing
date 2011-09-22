@@ -56,6 +56,9 @@
       </Layout>
       <SubComponents>
         <Component class="com.secondstack.swing.header.JPHeader" name="jPPanel2">
+          <Properties>
+            <Property name="header" type="java.lang.String" value="Judul"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

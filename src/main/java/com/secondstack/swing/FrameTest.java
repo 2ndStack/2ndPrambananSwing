@@ -35,6 +35,8 @@ public class FrameTest extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPPanel2.setHeader("Judul");
+
         javax.swing.GroupLayout jPPanel1Layout = new javax.swing.GroupLayout(jPPanel1);
         jPPanel1.setLayout(jPPanel1Layout);
         jPPanel1Layout.setHorizontalGroup(
