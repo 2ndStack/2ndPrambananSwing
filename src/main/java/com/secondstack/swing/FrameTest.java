@@ -10,6 +10,9 @@
  */
 package com.secondstack.swing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Latief
@@ -19,6 +22,7 @@ public class FrameTest extends javax.swing.JFrame {
     /** Creates new form FrameTest */
     public FrameTest() {
         initComponents();
+        initTableModel();
     }
 
     /** This method is called from within the constructor to
@@ -30,43 +34,73 @@ public class FrameTest extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPPanel1 = new com.secondstack.swing.panel.JPPanel();
-        jPPanel2 = new com.secondstack.swing.header.JPHeader();
+        panel = new com.secondstack.swing.panel.JPPanel();
+        scrollPane = new javax.swing.JScrollPane();
+        table = new com.secondstack.swing.table.JPTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPPanel2.setHeader("Judul");
+        table.setAutoCreateRowSorter(true);
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        scrollPane.setViewportView(table);
 
-        javax.swing.GroupLayout jPPanel1Layout = new javax.swing.GroupLayout(jPPanel1);
-        jPPanel1.setLayout(jPPanel1Layout);
-        jPPanel1Layout.setHorizontalGroup(
-            jPPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPPanel1Layout.createSequentialGroup()
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPPanel1Layout.setVerticalGroup(
-            jPPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPPanel1Layout.createSequentialGroup()
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println(table.getSelectedBean());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -74,13 +108,35 @@ public class FrameTest extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new FrameTest().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.secondstack.swing.panel.JPPanel jPPanel1;
-    private com.secondstack.swing.header.JPHeader jPPanel2;
+    private javax.swing.JButton jButton1;
+    private com.secondstack.swing.panel.JPPanel panel;
+    private javax.swing.JScrollPane scrollPane;
+    private com.secondstack.swing.table.JPTable table;
     // End of variables declaration//GEN-END:variables
+    
+    private void initTableModel(){
+        List<Person> people = new ArrayList<Person>();
+        for(int i=0;i<10;i++){
+            Person person = new Person();
+            person.setNama(i + "nama");
+            person.setAlamat(i + "alamat");
+            people.add(person);
+        }
+        
+        String [] header = {"Nama", "Alamat"};
+        table.setColumnHeader(header);
+        table.setList(people);
+        table.setWithCheck(true);
+        table.reModel();
+        table.getTableHeader().setReorderingAllowed(false);
+    }
+    
+    
 }

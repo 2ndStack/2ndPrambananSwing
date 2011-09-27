@@ -8,8 +8,11 @@ package com.secondstack.swing.table;
 
 import com.secondstack.swing.engine.BeanClass;
 import com.secondstack.swing.enumeration.EnumMonth;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -18,14 +21,21 @@ import javax.swing.table.AbstractTableModel;
  */
 public class BeanTableModel extends AbstractTableModel{
 
-
     private List beanList;
+    private Map<String,Object> mapBeanList;
     private String [] columnNames;
     private boolean [] columnEditable;
     private Class [] columnClass;
     private boolean [] columnVisible;
     
     private boolean sortAscDsc = true;
+    /**
+     * Apakah ditambahkan fitur check di TableModel?
+     */
+    private boolean withCheck = false;
+    private String checkColumnName = "Check";
+    private Boolean [] checkValue;
+    private boolean checkAll = false;
 
     public BeanTableModel() {
     }
@@ -58,7 +68,15 @@ public class BeanTableModel extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int row, int column) {
+        /**
+         * Jika withCheck true dan pada column pertama/ke 0, maka return kan
+         * true, untuk dichecked.
+         */
+        if(withCheck && column == 0)
+            return checkValue[row];
+        
         int columnIndexReal = convertToRealColumnIndex(column);
+        
         Object value = null;
         if(sortAscDsc)
             value = BeanClass.getterMethod(beanList.get(row), columnIndexReal);
@@ -83,7 +101,7 @@ public class BeanTableModel extends AbstractTableModel{
              * (anggap semua column tampil)
              */
             if(columnVisible == null)
-                return columnNames.length;
+                return withCheck ? columnNames.length+1 : columnNames.length;
             else {
                 //Returnkan jumlah column yang tampil
                 int columnVisibleCount = 0;
@@ -91,18 +109,23 @@ public class BeanTableModel extends AbstractTableModel{
                     if(columnVisible[col])
                         columnVisibleCount ++;
                 }
-                return columnVisibleCount;
+                return withCheck ? columnVisibleCount+1 : columnVisibleCount;
             }
         }
     }
 
     @Override
     public String getColumnName(int column) {
+        if(withCheck && column == 0)  // Jika withCheck true dan pada column pertama
+            return checkColumnName;   // kembalikan checkColumnName untuk columnName
         return columnNames[convertToRealColumnIndex(column)];
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
+        if(withCheck && columnIndex == 0)  // Jika withCheck true dan pada column pertama
+            return Boolean.class;        // kembalikan tipe columnnya
+        
         int columnIndexReal = convertToRealColumnIndex(columnIndex);
         /**
          * Jika array jenis column Class tidak ada atau null. Jenis class
@@ -139,6 +162,9 @@ public class BeanTableModel extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(withCheck && columnIndex == 0)  // Jika withCheck true dan pada column pertama
+            return true;        // kembalikan jadikan bisa editable
+        
         if(columnEditable == null)
             return false;
         else
@@ -147,6 +173,11 @@ public class BeanTableModel extends AbstractTableModel{
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        if(withCheck && columnIndex == 0){  // Jika withCheck true dan pada column pertama
+            checkValue[rowIndex] = (Boolean) aValue;
+            return;        // 
+        }
+        
         int columnIndexReal = convertToRealColumnIndex(columnIndex);
         if(sortAscDsc)
             BeanClass.setterMethod(beanList.get(rowIndex), columnIndexReal, aValue);
@@ -159,10 +190,29 @@ public class BeanTableModel extends AbstractTableModel{
         return beanList;
     }
 
+    public void setBeanList(List beanList) {
+        this.beanList = beanList;
+        createMapBeanList();
+    }
+
     public String[] getColumnNames() {
         return columnNames;
     }
 
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+    }
+    
+    private void initCheckValue(){
+        //Inisialiasasi nilai dari checkValue.default false.
+        if(withCheck){
+            checkValue = new Boolean[getRowCount()];
+            for(int i = 0; i<getRowCount();i++){
+                checkValue[i] = checkAll;
+            }
+        }
+    }
+    
     /**
      *
      * Fungsi untuk mengkonversikan index dari column yang visible(yang ditampilkan)
@@ -176,6 +226,13 @@ public class BeanTableModel extends AbstractTableModel{
      * @return hasil dari konversi index yang nampak ke indek column sebenarnya
      */
     public int convertToRealColumnIndex(int columnIndexVisible){
+        /**
+         * Jika withCheck true, maka column table berkurang satu. 
+         * sedangkan data sebenarnya tidak bertambah columnnya
+         * jadi column dikurangi satu ketika withCheck = true.
+         */
+        if(withCheck)
+            columnIndexVisible--;
         /**
          * Jika columnVisible null, anggap saja semua column tampil.
          */
@@ -207,7 +264,53 @@ public class BeanTableModel extends AbstractTableModel{
         }
         return realColumnIndex;
     }
+    
+    /**
+     * Dapatkan beanList yang tercentang.
+     */
+    public List getBeanListCheck(){
+        List list = new ArrayList();
+        
+        for(int i = 0; i<getRowCount();i++){
+            if(checkValue[i])
+                list.add(beanList.get(i));
+        }
+        
+        return list;
+    }
 
+    /**
+     * Buat map untuk menampung BeanList. Map ini berguna ketika untuk mencari
+     * BeanList mana yang sedang di sorot/pilih.
+     * Key pada map berdasarkan nilai dari field yang visible yang dicasting ke
+     * String dan di concatkan.
+     * syarat dari mapBeanList adalah harus pasti bahwa field yang visible
+     * mempunyai nilai yang pasti unik.
+     */
+    private void createMapBeanList(){
+        mapBeanList = new HashMap<String, Object>();
+        
+        for(Object o:beanList){
+            String key = "";
+            
+            for(int i = 0;i<getColumnCount();i++){
+                if(columnVisible == null || columnVisible[i])
+                    key = key + BeanClass.getterMethod(o, i);
+            }
+            
+            mapBeanList.put(key, o);
+        }
+    }
+    
+    /***
+     * Dapatkan Bean List dengan kunci string.
+     * @param key
+     * @return 
+     */
+    public Object getSelectedBean(String key){
+        return mapBeanList.get(key);
+    }
+    
     /**
      * Tampilkan urutan atas ke bawah data dari indek pertama ke indek trakhir
      * atau dari indek terakhir ke indek pertama
@@ -253,4 +356,46 @@ public class BeanTableModel extends AbstractTableModel{
         this.columnVisible = columnVisible;
     }
 
+    /**
+     * Apakah TableModel dengan auto checked?
+     * @return 
+     */
+    public boolean isWithCheck() {
+        return withCheck;
+    }
+
+    /**
+     * setting untuk menambahkan auto checked jika bernilai true
+     * @param withCheck 
+     */
+    public void setWithCheck(boolean withCheck) {
+        this.withCheck = withCheck;
+        initCheckValue();
+    }
+
+    public String getCheckColumnName() {
+        return checkColumnName;
+    }
+
+    public void setCheckColumnName(String checkColumnName) {
+        this.checkColumnName = checkColumnName;
+    }
+
+    public Boolean[] getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(Boolean[] checkValue) {
+        this.checkValue = checkValue;
+    }
+
+    public boolean isCheckAll() {
+        return checkAll;
+    }
+
+    public void setCheckAll(boolean checkAll) {
+        this.checkAll = checkAll;
+        initCheckValue();
+        fireTableDataChanged();
+    }
 }
