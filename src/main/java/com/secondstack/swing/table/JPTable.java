@@ -44,6 +44,14 @@ public class JPTable extends JTable{
     }
     
     /**
+     * Dapatkan kunci dari beanList yang tercentang.
+     * @return 
+     */
+    public List<String> getBeanListCheckKey(){
+        return model.getBeanListCheckKey();
+    }
+    
+    /**
      * Dapatkan nilai dari Bean Object pada baris table yang disorot.
      * @return 
      */
@@ -51,6 +59,16 @@ public class JPTable extends JTable{
         if(getSelectedRow() == -1)
             return null;
         
+        return model.getSelectedBean(getSelectedBeanKey());
+    }
+    
+    /**
+     * Dapatkan kunci dari Bean Object pada table yang disorot.
+     * @return 
+     */
+    public String getSelectedBeanKey(){
+        if(getSelectedRow() == -1)
+            return null;
         String key = "";
         
         for(int col = (isWithCheck() ? 1 : 0)
@@ -58,7 +76,7 @@ public class JPTable extends JTable{
             key = key + getValueAt(getSelectedRow(), col);
         }
         
-        return model.getSelectedBean(key);
+        return key;
     }
     
     public List getList() {
@@ -76,7 +94,8 @@ public class JPTable extends JTable{
     public void setColumnHeader(String[] columnHeader) {
         model.setColumnNames(columnHeader);
     }
-/**
+    
+    /**
      * Apakah TableModel dengan auto checked?
      * @return 
      */

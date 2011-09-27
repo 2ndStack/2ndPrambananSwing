@@ -99,7 +99,13 @@ public class FrameTest extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(table.getSelectedBean());
+        System.out.println("*******" + table.getSelectedBeanKey()
+                + "******************************************");
+        
+        List<String> keys = table.getBeanListCheckKey();
+        for(String key:keys){
+            System.out.println(key);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
