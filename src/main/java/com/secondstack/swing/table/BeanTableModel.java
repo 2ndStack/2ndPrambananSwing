@@ -422,6 +422,20 @@ public class BeanTableModel extends AbstractTableModel {
     }
 
     public boolean isCheckAll() {
+        int benar = 0;
+        int salah = 0;
+        for(boolean b:checkValue){
+            if(b)
+                benar++;
+            else
+                salah++;
+        }
+        
+        if(benar == getColumnCount())
+            checkAll = true;
+        else
+            checkAll = false;
+        
         return checkAll;
     }
 
