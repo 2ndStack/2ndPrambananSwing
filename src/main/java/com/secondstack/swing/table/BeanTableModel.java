@@ -326,7 +326,7 @@ public class BeanTableModel extends AbstractTableModel {
     private String createMapBeanListKey(Object o) {
         String key = "";
 
-        for (int i = 0; i < (withCheck ? getColumnCount() -1 : getColumnCount()); i++) {
+        for (int i = 0; i < (withCheck ? getColumnCount()-1 : getColumnCount()); i++) {
             if (columnVisible == null || columnVisible[i]) {
                 key = key + BeanClass.getterMethod(o, i);
             }
@@ -431,7 +431,7 @@ public class BeanTableModel extends AbstractTableModel {
                 salah++;
         }
         
-        if(benar == getColumnCount())
+        if(benar == getRowCount())
             checkAll = true;
         else
             checkAll = false;

@@ -26,6 +26,15 @@ public class JPTable extends JTable{
      * Menampilkan Daftar data ke dalam JTable.
      */
     public void reModel() {
+//        BeanTableModel modelTemp = new BeanTableModel();
+//        modelTemp.setBeanList(list);
+//        modelTemp.setCheckAll(model.isCheckAll());
+//        modelTemp.setCheckColumnName(model.getCheckColumnName());
+//        //modelTemp.setCheckValue(model.getCheckValue());
+//        modelTemp.setColumnEditable(model.getColumnEditable());
+//        modelTemp.setColumnVisible(model.getColumnVisible());
+//        modelTemp.setWithCheck(model.isWithCheck());
+//        model = modelTemp;
         setModel(model);
     }
 
