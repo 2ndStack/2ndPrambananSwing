@@ -15,6 +15,12 @@ import javax.swing.table.TableModel;
 public class JPTable extends JTable{
     private List list;
     private String [] columnHeader;
+    private boolean[] columnEditable;
+    private boolean[] columnVisible;
+    private boolean withCheck = false;
+    private String checkColumnName = "Check";
+    private Boolean[] checkValue;
+    private boolean checkAll = false;
     BeanTableModel model;
 
     public JPTable() {
@@ -26,15 +32,14 @@ public class JPTable extends JTable{
      * Menampilkan Daftar data ke dalam JTable.
      */
     public void reModel() {
-//        BeanTableModel modelTemp = new BeanTableModel();
-//        modelTemp.setBeanList(list);
-//        modelTemp.setCheckAll(model.isCheckAll());
-//        modelTemp.setCheckColumnName(model.getCheckColumnName());
-//        //modelTemp.setCheckValue(model.getCheckValue());
-//        modelTemp.setColumnEditable(model.getColumnEditable());
-//        modelTemp.setColumnVisible(model.getColumnVisible());
-//        modelTemp.setWithCheck(model.isWithCheck());
-//        model = modelTemp;
+//        model = new BeanTableModel();
+        model.setCheckAll(checkAll);
+        model.setCheckColumnName(checkColumnName);
+        model.setCheckValue(checkValue);
+        model.setColumnEditable(columnEditable);
+        model.setColumnVisible(columnVisible);
+        model.setWithCheck(withCheck);
+        model.setBeanList(list);
         setModel(model);
     }
 
@@ -93,6 +98,7 @@ public class JPTable extends JTable{
     }
 
     public void setList(List list) {
+        this.list = list;
         model.setBeanList(list);
     }
 
@@ -101,6 +107,7 @@ public class JPTable extends JTable{
     }
 
     public void setColumnHeader(String[] columnHeader) {
+        this.columnHeader = columnHeader;
         model.setColumnNames(columnHeader);
     }
     
@@ -117,6 +124,7 @@ public class JPTable extends JTable{
      * @param withCheck 
      */
     public void setWithCheck(boolean withCheck) {
+        this.withCheck = withCheck;
         model.setWithCheck(withCheck);
     }
 
@@ -125,6 +133,7 @@ public class JPTable extends JTable{
     }
 
     public void setCheckColumnName(String checkColumnName) {
+        this.checkColumnName = checkColumnName;
         model.setCheckColumnName(checkColumnName);
     }
 
@@ -133,6 +142,7 @@ public class JPTable extends JTable{
     }
 
     public void setCheckValue(Boolean[] checkValue) {
+        this.checkValue = checkValue;
         model.setCheckValue(checkValue);
     }
 
@@ -141,6 +151,7 @@ public class JPTable extends JTable{
     }
 
     public void setCheckAll(boolean checkAll) {
+        this.checkAll = checkAll;
         model.setCheckAll(checkAll);
     }
     
@@ -149,6 +160,7 @@ public class JPTable extends JTable{
     }
 
     public void setColumnEditable(boolean[] columnEditable) {
+        this.columnEditable = columnEditable;
         model.setColumnEditable(columnEditable);
     }
     
@@ -165,6 +177,7 @@ public class JPTable extends JTable{
     }
 
     public void setColumnVisible(boolean[] columnVisible) {
+        this.columnVisible = columnVisible;
         model.setColumnVisible(columnVisible);
     }
 }
