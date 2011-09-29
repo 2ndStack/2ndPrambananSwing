@@ -291,17 +291,17 @@ public class BeanTableModel extends AbstractTableModel {
         return list;
     }
 
-    public List<String> getBeanListCheckKey(){
+    public List<String> getBeanListCheckKey() {
         List<String> keys = new ArrayList<String>();
         List list = getBeanListCheck();
-        
-        for(Object o:list){
+
+        for (Object o : list) {
             keys.add(createMapBeanListKey(o));
         }
-        
+
         return keys;
     }
-    
+
     /**
      * Buat map untuk menampung BeanList. Map ini berguna ketika untuk mencari
      * BeanList mana yang sedang di sorot/pilih.
@@ -312,6 +312,10 @@ public class BeanTableModel extends AbstractTableModel {
      */
     private void createMapBeanList() {
         mapBeanList = new HashMap<String, Object>();
+
+        if (beanList == null) {
+            return;
+        }
 
         for (Object o : beanList) {
             mapBeanList.put(createMapBeanListKey(o), o);
@@ -326,9 +330,17 @@ public class BeanTableModel extends AbstractTableModel {
     private String createMapBeanListKey(Object o) {
         String key = "";
 
-        for (int i = 0; i < (withCheck ? getColumnCount()-1 : getColumnCount()); i++) {
+        int loop = columnNames.length;
+        for (int i = 0; i < loop; i++) {
             if (columnVisible == null || columnVisible[i]) {
-                key = key + BeanClass.getterMethod(o, i);
+                Object value = BeanClass.getterMethod(o, i);
+                if (value instanceof Calendar) {
+                    Calendar cal = (Calendar) value;
+                    key += cal.get(Calendar.DATE) + " " + EnumMonth.values()[(cal.get(Calendar.MONTH))] + " " + cal.get(Calendar.YEAR);
+                    continue;
+                }
+
+                key = key + value;
             }
         }
         return key;
@@ -386,6 +398,7 @@ public class BeanTableModel extends AbstractTableModel {
 
     public void setColumnVisible(boolean[] columnVisible) {
         this.columnVisible = columnVisible;
+        createMapBeanList();
     }
 
     /**
@@ -424,18 +437,20 @@ public class BeanTableModel extends AbstractTableModel {
     public boolean isCheckAll() {
         int benar = 0;
         int salah = 0;
-        for(boolean b:checkValue){
-            if(b)
+        for (boolean b : checkValue) {
+            if (b) {
                 benar++;
-            else
+            } else {
                 salah++;
+            }
         }
-        
-        if(benar == getRowCount())
+
+        if (benar == getRowCount()) {
             checkAll = true;
-        else
+        } else {
             checkAll = false;
-        
+        }
+
         return checkAll;
     }
 
