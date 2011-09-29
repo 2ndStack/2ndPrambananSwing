@@ -41,6 +41,7 @@ public class JPTable extends JTable{
 //        model.setWithCheck(withCheck);
 //        model.setBeanList(list);
         setModel(model);
+        repaint();
     }
 
     @Override
