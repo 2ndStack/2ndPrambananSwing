@@ -38,6 +38,7 @@ public class FrameTest extends javax.swing.JFrame {
         scrollPane = new javax.swing.JScrollPane();
         table = new com.secondstack.swing.table.JPTable();
         jButton1 = new javax.swing.JButton();
+        combo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +64,13 @@ public class FrameTest extends javax.swing.JFrame {
             }
         });
 
+        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -70,9 +78,10 @@ public class FrameTest extends javax.swing.JFrame {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(combo, 0, 229, Short.MAX_VALUE)
                     .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,8 +89,10 @@ public class FrameTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -99,14 +110,12 @@ public class FrameTest extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("*******" + table.getSelectedBeanKey()
-                + "******************************************");
-        
-        List<String> keys = table.getBeanListCheckKey();
-        for(String key:keys){
-            System.out.println(key);
-        }
+        combo.setSelectedIndex(-1);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboItemStateChanged
+        System.out.println(new java.util.Date().getTime()+"comboItemStateChanged");
+    }//GEN-LAST:event_comboItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -121,6 +130,7 @@ public class FrameTest extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox combo;
     private javax.swing.JButton jButton1;
     private com.secondstack.swing.panel.JPPanel panel;
     private javax.swing.JScrollPane scrollPane;

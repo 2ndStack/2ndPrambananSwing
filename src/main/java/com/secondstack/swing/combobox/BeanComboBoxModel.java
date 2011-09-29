@@ -58,6 +58,8 @@ public class BeanComboBoxModel extends AbstractListModel implements ComboBoxMode
 
     @Override
     public int getSize() {
+        if(beanList == null)
+            return 0;
         return beanList.size();
     }
 
