@@ -33,13 +33,13 @@ public class JPTable extends JTable{
      */
     public void reModel() {
 //        model = new BeanTableModel();
-//        model.setCheckAll(checkAll);
-//        model.setCheckColumnName(checkColumnName);
-//        model.setCheckValue(checkValue);
-//        model.setColumnEditable(columnEditable);
-//        model.setColumnVisible(columnVisible);
-//        model.setWithCheck(withCheck);
-//        model.setBeanList(list);
+        model.setCheckAll(checkAll);
+        model.setCheckColumnName(checkColumnName);
+        model.setCheckValue(checkValue);
+        model.setColumnEditable(columnEditable);
+        model.setColumnVisible(columnVisible);
+        model.setWithCheck(withCheck);
+        model.setBeanList(list);
         setModel(model);
         repaint();
     }

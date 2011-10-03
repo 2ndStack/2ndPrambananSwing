@@ -8,7 +8,7 @@ public class Main
 {
     public static void main( String[] args )
     {
-        String s = "cobalah";
-        System.out.println(s.substring(0, s.length()-3));
+        String s = "";
+        System.out.println(s.matches("\\p{Digit}+"));
     }
 }
