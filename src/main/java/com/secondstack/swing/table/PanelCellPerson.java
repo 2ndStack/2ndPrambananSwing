@@ -98,4 +98,9 @@ public class PanelCellPerson extends PanelCell {
             textAddress.setText(person.getAlamat());
         }
     }
+
+    @Override
+    public void requestDefaultFocusComponent() {
+        textName.requestFocus();
+    }
 }

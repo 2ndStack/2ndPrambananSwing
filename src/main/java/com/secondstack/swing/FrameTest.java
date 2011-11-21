@@ -138,12 +138,14 @@ public class FrameTest extends javax.swing.JFrame {
             person.setNama(Math.random() + "");
             person.setAlamat(Math.random() + "");
             ModelPerson modelPerson = new ModelPerson();
+            modelPerson.setString(Math.random() + "");
             modelPerson.setPerson(person);
+            modelPerson.setBool(true);
             modelPersons.add(modelPerson);
         }
 
-        String[] columnNames = {"Person"};
-        boolean[] columnEditable = {true};
+        String[] columnNames = {"String","Person","Boolean"};
+        boolean[] columnEditable = {true,true,true};
 
         PanelCellPerson panelCellPerson = new PanelCellPerson();
         ObjectTableCellRenderrer personCellRenderrer;

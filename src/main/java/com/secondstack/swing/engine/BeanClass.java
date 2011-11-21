@@ -81,8 +81,8 @@ public class BeanClass {
         Field field = field(beanClass, fieldIndex);
         String fieldName = field.getName();
         String getterName = "";
-        if(field.getType().getName().endsWith("boolean")
-                || field.getType().getName().endsWith("java.lang.Boolean"))
+        if(field.getType().getName().endsWith("boolean"))
+                //|| field.getType().getName().endsWith("java.lang.Boolean"))
             getterName = "is" + fieldName.substring(0, 1).toUpperCase() +
                 fieldName.substring(1);
         else

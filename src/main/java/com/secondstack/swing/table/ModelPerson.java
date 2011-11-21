@@ -11,7 +11,9 @@ import com.secondstack.swing.Person;
  * @author Latief
  */
 public class ModelPerson {
+    private String string;
     private Person person;
+    private Boolean bool;
 
     public Person getPerson() {
         return person;
@@ -19,6 +21,22 @@ public class ModelPerson {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Boolean getBool() {
+        return bool;
+    }
+
+    public void setBool(Boolean bool) {
+        this.bool = bool;
+    }
+
+    public String getString() {
+        return string;
+    }
+
+    public void setString(String string) {
+        this.string = string;
     }
 
     @Override
@@ -30,7 +48,13 @@ public class ModelPerson {
             return false;
         }
         final ModelPerson other = (ModelPerson) obj;
+        if ((this.string == null) ? (other.string != null) : !this.string.equals(other.string)) {
+            return false;
+        }
         if (this.person != other.person && (this.person == null || !this.person.equals(other.person))) {
+            return false;
+        }
+        if (this.bool != other.bool) {
             return false;
         }
         return true;
@@ -38,8 +62,11 @@ public class ModelPerson {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (this.person != null ? this.person.hashCode() : 0);
+        int hash = 7;
+        hash = 73 * hash + (this.string != null ? this.string.hashCode() : 0);
+        hash = 73 * hash + (this.person != null ? this.person.hashCode() : 0);
+        hash = 73 * hash + (this.bool ? 1 : 0);
         return hash;
     }
+
 }

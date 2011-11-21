@@ -10,7 +10,6 @@
  */
 package com.secondstack.swing.table;
 
-import com.secondstack.swing.Person;
 import com.secondstack.swing.panel.JPPanelTransparency;
 
 /**
@@ -47,6 +46,26 @@ public abstract class PanelCell extends JPPanelTransparency {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    private boolean selected = false;
+
     public abstract Object getValue();
+
     public abstract void setValue(Object value);
+    
+    public abstract void requestDefaultFocusComponent();
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+        if (selected) {
+            setAlphaTransparency(0.5F);
+            requestFocusInWindow();
+            requestDefaultFocusComponent();
+        } else {
+            setAlphaTransparency(0F);
+        }
+    }
+    
+    public boolean isSelected(){
+        return this.selected;
+    }
 }

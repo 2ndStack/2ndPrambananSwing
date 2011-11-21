@@ -28,6 +28,8 @@ public class ObjectTableCellEditor extends AbstractCellEditor implements TableCe
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        panelCell.setSelected(isSelected);
+//        if(!isSelected)
         panelCell.setValue(value);
         return panelCell;
     }
