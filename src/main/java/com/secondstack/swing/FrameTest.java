@@ -10,8 +10,15 @@
  */
 package com.secondstack.swing;
 
+import com.secondstack.swing.table.BeanTableModel;
+import com.secondstack.swing.table.ModelPerson;
+import com.secondstack.swing.table.ObjectTableCellEditor;
+import com.secondstack.swing.table.ObjectTableCellRenderrer;
+import com.secondstack.swing.table.PanelCellPerson;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +30,7 @@ public class FrameTest extends javax.swing.JFrame {
     public FrameTest() {
         initComponents();
         initTableModel();
+        scrollPane.getViewport().setOpaque(false);
     }
 
     /** This method is called from within the constructor to
@@ -36,13 +44,13 @@ public class FrameTest extends javax.swing.JFrame {
 
         panel = new com.secondstack.swing.panel.JPPanel();
         scrollPane = new javax.swing.JScrollPane();
-        table = new com.secondstack.swing.table.JPTable();
-        jButton1 = new javax.swing.JButton();
-        combo = new javax.swing.JComboBox();
+        table = new javax.swing.JTable();
+        button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        table.setAutoCreateRowSorter(true);
+        scrollPane.setOpaque(false);
+
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -54,20 +62,13 @@ public class FrameTest extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setOpaque(false);
         scrollPane.setViewportView(table);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        button.setText("button");
+        button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        combo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                comboItemStateChanged(evt);
+                buttonActionPerformed(evt);
             }
         });
 
@@ -78,21 +79,18 @@ public class FrameTest extends javax.swing.JFrame {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(combo, 0, 229, Short.MAX_VALUE)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(button))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addComponent(button)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -109,13 +107,9 @@ public class FrameTest extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        combo.setSelectedIndex(-1);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void comboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboItemStateChanged
-        System.out.println(new java.util.Date().getTime()+"comboItemStateChanged");
-    }//GEN-LAST:event_comboItemStateChanged
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
+        System.out.println(modelPersons);
+    }//GEN-LAST:event_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,29 +124,44 @@ public class FrameTest extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox combo;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton button;
     private com.secondstack.swing.panel.JPPanel panel;
     private javax.swing.JScrollPane scrollPane;
-    private com.secondstack.swing.table.JPTable table;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
-    
-    private void initTableModel(){
-        List<Person> people = new ArrayList<Person>();
-        for(int i=0;i<10;i++){
+    private List<ModelPerson> modelPersons;
+
+    private void initTableModel() {
+        modelPersons = new ArrayList<ModelPerson>();
+        for (int i = 0; i < 10; i++) {
             Person person = new Person();
-            person.setNama(i + "nama");
-            person.setAlamat(i + "alamat");
-            people.add(person);
+            person.setNama(Math.random() + "");
+            person.setAlamat(Math.random() + "");
+            ModelPerson modelPerson = new ModelPerson();
+            modelPerson.setPerson(person);
+            modelPersons.add(modelPerson);
         }
-        
-        String [] header = {"Nama", "Alamat"};
-        table.setColumnHeader(header);
-        table.setList(people);
-        table.setWithCheck(true);
-        table.reModel();
-        table.getTableHeader().setReorderingAllowed(false);
+
+        String[] columnNames = {"Person"};
+        boolean[] columnEditable = {true};
+
+        PanelCellPerson panelCellPerson = new PanelCellPerson();
+        ObjectTableCellRenderrer personCellRenderrer;
+        ObjectTableCellEditor personCellEditor;
+        try {
+            personCellRenderrer = new ObjectTableCellRenderrer(panelCellPerson);
+            personCellEditor = new ObjectTableCellEditor(panelCellPerson);
+
+            BeanTableModel tableModel = new BeanTableModel(modelPersons, columnNames, columnEditable);
+            table.setDefaultRenderer(Person.class, personCellRenderrer);
+            table.setDefaultEditor(Person.class, personCellEditor);
+            table.setRowHeight(panelCellPerson.getPreferredSize().height);
+            table.setModel(tableModel);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(FrameTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FrameTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
-    
 }
