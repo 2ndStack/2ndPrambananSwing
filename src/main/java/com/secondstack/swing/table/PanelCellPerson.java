@@ -37,6 +37,12 @@ public class PanelCellPerson extends PanelCell {
         textName = new javax.swing.JTextField();
         textAddress = new javax.swing.JTextField();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
         labelName.setText("Nama :");
 
         labelAddress.setText("Alamat : ");
@@ -70,6 +76,11 @@ public class PanelCellPerson extends PanelCell {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        System.out.println("sdafasdfasdfasdfsdf");
+    }//GEN-LAST:event_formFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel labelAddress;
     private javax.swing.JLabel labelName;
@@ -101,6 +112,6 @@ public class PanelCellPerson extends PanelCell {
 
     @Override
     public void requestDefaultFocusComponent() {
-        textName.requestFocus();
+        textName.requestFocusInWindow();
     }
 }
