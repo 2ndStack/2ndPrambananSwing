@@ -4,15 +4,9 @@
  */
 package com.secondstack.swing.panel;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -48,5 +42,6 @@ public class JPPanelTransparency extends JPanel {
 
     public void setAlphaTransparency(float alphaTransparency) {
         this.alphaTransparency = alphaTransparency;
+        repaint();
     }
 }
