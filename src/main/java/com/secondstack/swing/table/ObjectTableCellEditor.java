@@ -4,7 +4,10 @@
  */
 package com.secondstack.swing.table;
 
+import com.secondstack.swing.table.listener.CellValueChangedListener;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
@@ -13,8 +16,9 @@ import javax.swing.table.TableCellEditor;
  *
  * @author Latief
  */
-public class ObjectTableCellEditor extends AbstractCellEditor implements TableCellEditor{
+public class ObjectTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+    protected List<CellValueChangedListener> cellValueChangedListeners;
     protected PanelCell panelCell;
 
     public ObjectTableCellEditor(PanelCell panelCell) throws InstantiationException, IllegalAccessException {
@@ -42,4 +46,11 @@ public class ObjectTableCellEditor extends AbstractCellEditor implements TableCe
         this.panelCell = panelCell;
     }
 
+    public void addCellValueChangedListener(CellValueChangedListener cellValueChangedListener){
+        if(cellValueChangedListeners == null){
+            cellValueChangedListeners = new ArrayList<CellValueChangedListener>();
+        }
+        cellValueChangedListeners.add(cellValueChangedListener);
+        panelCell.addCellValueChanngedListener(cellValueChangedListener);
+    }
 }

@@ -11,6 +11,11 @@
 package com.secondstack.swing.table;
 
 import com.secondstack.swing.panel.JPPanelTransparency;
+import com.secondstack.swing.table.listener.CellValueChangedListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  *
@@ -58,6 +63,7 @@ public abstract class PanelCell extends JPPanelTransparency {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     private boolean selected = false;
+    protected List<CellValueChangedListener> cellValueChangedListeners;
 
     public abstract Object getValue();
 
@@ -78,5 +84,22 @@ public abstract class PanelCell extends JPPanelTransparency {
     
     public boolean isSelected(){
         return this.selected;
+    }
+    
+    public void addCellValueChanngedListener(CellValueChangedListener cellValueChangedListener){
+        if(cellValueChangedListeners == null){
+            cellValueChangedListeners = new ArrayList<CellValueChangedListener>();
+        }
+        cellValueChangedListeners.add(cellValueChangedListener);
+    }
+    
+    protected void fireValueChanged(){
+        if(cellValueChangedListeners == null){
+            return;
+        }
+        
+        for(CellValueChangedListener cellValueChangedListener:cellValueChangedListeners){
+            cellValueChangedListener.fireValueChanged();
+        }
     }
 }

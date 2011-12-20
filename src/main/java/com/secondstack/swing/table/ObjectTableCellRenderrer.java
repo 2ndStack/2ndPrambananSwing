@@ -35,4 +35,6 @@ public class ObjectTableCellRenderrer implements TableCellRenderer {
     public void setPanelCell(PanelCell panelCell) {
         this.panelCell = panelCell;
     }
+    
+    
 }
