@@ -1,5 +1,26 @@
+###################
+# Intellij Config #
+###################
 *.iml
 *.ipr
 *.iws
+*.ids
+.idea
+.idea/**/*
+###########################
+# Project Intellij Config #
+###########################
+module_*.xml
+
+################
+# maven config #
+################
 target
+
+###################
+# Netbeans config #
+###################
+lib
 nbactions.xml
+nb-configuration.xml
+catalog.xml
